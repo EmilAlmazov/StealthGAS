@@ -80,4 +80,15 @@ Platforms/HoloLens/Config/HoloLensEngine.ini
 # personal
 .renom/
 GEMINI.md
-/Content/Paragon*
+
+# ThirdPerson Content
+Content/Characters/
+Content/Collections/
+Content/Developers/
+Content/LevelPrototyping/
+Content/ThirdPerson/
+Content/Input/
+Content/Variant_*/
+
+# Paragon Content
+Content/Paragon*/

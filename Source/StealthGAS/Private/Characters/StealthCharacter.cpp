@@ -12,6 +12,7 @@
 #include "AbilitySystemComponent.h"
 #include "InputActionValue.h"
 #include "StealthGAS.h"
+#include "GameplayTags/StealthTags.h"
 #include "Player/StealthPlayerState.h"
 
 AStealthCharacter::AStealthCharacter()
@@ -76,7 +77,6 @@ void AStealthCharacter::OnRep_PlayerState()
 	Super::OnRep_PlayerState();
 	
 	if (!IsValid(GetAbilitySystemComponent())) return;
-	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 }
 
@@ -102,7 +102,10 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ThisClass::DoCrouchStart);
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &ThisClass::DoCrouchEnd);
 		
+		// Abilities
 		EnhancedInputComponent->BindAction(PrimaryAction, ETriggerEvent::Started, this, &ThisClass::DoPrimaryStart);
+		EnhancedInputComponent->BindAction(SecondaryAction, ETriggerEvent::Started, this, &ThisClass::DoSecondaryStart);
+		EnhancedInputComponent->BindAction(TertiaryAction, ETriggerEvent::Started, this, &ThisClass::DoTertiaryStart);
 	}
 	else
 	{
@@ -182,6 +185,20 @@ void AStealthCharacter::DoCrouchEnd()
 
 void AStealthCharacter::DoPrimaryStart()
 {
-	// test log message
-	UE_LOG(LogStealthGAS, Log, TEXT("Primary action triggered"));
+	ActivateAbilities(StealthTags::StealthAbilities::Primary);
+}
+
+void AStealthCharacter::DoSecondaryStart()
+{
+	ActivateAbilities(StealthTags::StealthAbilities::Secondary);
+}
+
+void AStealthCharacter::DoTertiaryStart()
+{
+	ActivateAbilities(StealthTags::StealthAbilities::Tertiary);
+}
+
+void AStealthCharacter::ActivateAbilities(const FGameplayTag& AbilityTag) const
+{
+	GetAbilitySystemComponent()->TryActivateAbilitiesByTag(AbilityTag.GetSingleTagContainer());
 }

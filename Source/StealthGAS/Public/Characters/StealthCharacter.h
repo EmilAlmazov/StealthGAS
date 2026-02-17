@@ -5,6 +5,7 @@
 #include "Logging/LogMacros.h"
 #include "StealthCharacter.generated.h"
 
+struct FGameplayTag;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
@@ -36,8 +37,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Movement")
 	UInputAction* CrouchAction;
 	
+	// Abilities
 	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Abilities")
 	UInputAction* PrimaryAction;
+	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Abilities")
+	UInputAction* SecondaryAction;
+	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Abilities")
+	UInputAction* TertiaryAction;
+	
+	void ActivateAbilities(const FGameplayTag& AbilityTag) const;
 	
 public:
 
@@ -67,11 +75,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Stealth|Input|Movement")
 	virtual void DoJumpEnd();
 	
-	
 	virtual void DoCrouchStart();
 	virtual void DoCrouchEnd();
 	
+	
 	virtual void DoPrimaryStart();
+	virtual void DoSecondaryStart();
+	virtual void DoTertiaryStart();
 	
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }

@@ -1,0 +1,19 @@
+﻿// Copyright Emil Almazov
+
+#include "AbilitySystem/Abilities/StealthGameplayAbility.h"
+
+static TAutoConsoleVariable<bool> CVarDebugAbilities(
+	TEXT("Stealth.Debug.Abilities"),
+	false,
+	TEXT("Toggle debug drawing for gameplay abilities"),
+	ECVF_Cheat
+);
+
+void UStealthGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+	const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
+{
+	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+
+	const bool bShouldDebug = CVarDebugAbilities.GetValueOnGameThread();
+	UE_CLOG(bShouldDebug, LogTemp, Warning, TEXT("Ability Activated: %s"), *GetName());
+}

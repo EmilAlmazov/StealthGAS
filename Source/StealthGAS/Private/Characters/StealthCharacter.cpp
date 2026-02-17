@@ -58,20 +58,25 @@ UAbilitySystemComponent* AStealthCharacter::GetAbilitySystemComponent() const
 	return StealthPlayerState ? StealthPlayerState->GetAbilitySystemComponent() : nullptr;
 }
 
+// Happens on server side
 void AStealthCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	
-	if (!IsValid(GetAbilitySystemComponent())) return;
+	if (!IsValid(GetAbilitySystemComponent()) || !HasAuthority()) return;
+	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+	GiveStartupAbilities();
 	
 }
 
+// Happens on client side
 void AStealthCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 	
 	if (!IsValid(GetAbilitySystemComponent())) return;
+	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 }
 

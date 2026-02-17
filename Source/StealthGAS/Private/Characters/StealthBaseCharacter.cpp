@@ -3,6 +3,8 @@
 
 #include "Characters/StealthBaseCharacter.h"
 
+#include "AbilitySystemComponent.h"
+
 
 AStealthBaseCharacter::AStealthBaseCharacter()
 {
@@ -14,5 +16,16 @@ AStealthBaseCharacter::AStealthBaseCharacter()
 UAbilitySystemComponent* AStealthBaseCharacter::GetAbilitySystemComponent() const
 {
 	return nullptr;
+}
+
+void AStealthBaseCharacter::GiveStartupAbilities()
+{
+	if (!IsValid(GetAbilitySystemComponent())) return;
+	
+	for (const auto& Ability : StartupAbilities)
+	{
+		FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(Ability);
+		GetAbilitySystemComponent()->GiveAbility(GameplayAbilitySpec);
+	}
 }
 

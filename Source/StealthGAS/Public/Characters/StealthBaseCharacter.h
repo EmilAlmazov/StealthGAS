@@ -8,6 +8,8 @@
 
 #include "StealthBaseCharacter.generated.h"
 
+class UGameplayAbility;
+
 UCLASS(Abstract)
 class STEALTHGAS_API AStealthBaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -16,4 +18,12 @@ class STEALTHGAS_API AStealthBaseCharacter : public ACharacter, public IAbilityS
 public:
 	AStealthBaseCharacter();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	
+protected:
+	void GiveStartupAbilities();
+	
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "StealthGAS | Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+	
 };

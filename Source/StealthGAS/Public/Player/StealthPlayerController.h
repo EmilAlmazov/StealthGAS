@@ -16,8 +16,8 @@ class AStealthPlayerController : public APlayerController
 protected:
 
 	/** Input Mapping Contexts */
-	UPROPERTY(EditAnywhere, Category ="Input|Input Mappings")
-	TArray<UInputMappingContext*> DefaultMappingContexts;
+	UPROPERTY(EditDefaultsOnly, Category ="Stealth|Input|Input Mappings")
+	TArray<TObjectPtr<UInputMappingContext>> InputMappingContexts;
 	
 	virtual void BeginPlay() override;
 	

@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "Characters/StealthBaseCharacter.h"
-#include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "StealthCharacter.generated.h"
 
@@ -13,46 +12,35 @@ struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
-/**
- *  A simple player-controllable third person character
- *  Implements a controllable orbiting camera
- */
 UCLASS(abstract)
 class AStealthCharacter : public AStealthBaseCharacter
 {
 	GENERATED_BODY()
-
-	/** Camera boom positioning the camera behind the character */
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
-
-	/** Follow camera */
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
 	
 protected:
-
-	/** Jump Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
+	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Movement")
 	UInputAction* JumpAction;
 
-	/** Move Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
+	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Movement")
 	UInputAction* MoveAction;
 
-	/** Mouse Look Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
+	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Movement")
 	UInputAction* MouseLookAction;
 
-	UPROPERTY(EditAnywhere, Category="Input")
+	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Movement")
 	UInputAction* CrouchAction;
 	
-	UPROPERTY(EditAnywhere, Category="Input")
+	UPROPERTY(EditDefaultsOnly, Category="Stealth|Input|Abilities")
 	UInputAction* PrimaryAction;
 	
 public:
 
-	/** Constructor */
 	AStealthCharacter();	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void PossessedBy(AController* NewController) override;
@@ -60,51 +48,32 @@ public:
 
 protected:
 
-	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void BeginPlay() override;
-
-protected:
-
-	/** Called for movement input */
+	
 	void Move(const FInputActionValue& Value);
-
-	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
 public:
-
-	/** Handles move inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
+	UFUNCTION(BlueprintCallable, Category="Stealth|Input|Movement")
 	virtual void DoMove(float Right, float Forward);
 
-	/** Handles look inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
+	UFUNCTION(BlueprintCallable, Category="Stealth|Input|Movement")
 	virtual void DoLook(float Yaw, float Pitch);
 
-	/** Handles jump pressed inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
+	UFUNCTION(BlueprintCallable, Category="Stealth|Input|Movement")
 	virtual void DoJumpStart();
 
-	/** Handles jump pressed inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
+	UFUNCTION(BlueprintCallable, Category="Stealth|Input|Movement")
 	virtual void DoJumpEnd();
 	
-	UFUNCTION(BlueprintCallable, Category="Input")
-	virtual void DoCrouchStart();
 	
-	UFUNCTION(BlueprintCallable, Category="Input")
+	virtual void DoCrouchStart();
 	virtual void DoCrouchEnd();
 	
-	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoPrimaryStart();
 	
-public:
-
-	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-
-	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
 

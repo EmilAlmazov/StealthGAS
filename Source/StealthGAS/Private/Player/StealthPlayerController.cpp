@@ -21,7 +21,7 @@ void AStealthPlayerController::SetupInputComponent()
 		// Add Input Mapping Contexts
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
-			for (UInputMappingContext* CurrentContext : DefaultMappingContexts)
+			for (UInputMappingContext* CurrentContext : InputMappingContexts)
 			{
 				Subsystem->AddMappingContext(CurrentContext, 0);
 			}

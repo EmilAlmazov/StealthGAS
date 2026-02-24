@@ -2,7 +2,7 @@
 
 #include "AbilitySystem/Abilities/StealthGameplayAbility.h"
 
-static TAutoConsoleVariable<bool> CVarDebugAbilities(
+static TAutoConsoleVariable CVarDebugAbilities(
 	TEXT("Stealth.Debug.Abilities"),
 	false,
 	TEXT("Toggle debug drawing for gameplay abilities"),
@@ -16,4 +16,9 @@ void UStealthGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle H
 
 	const bool bShouldDebug = CVarDebugAbilities.GetValueOnGameThread();
 	UE_CLOG(bShouldDebug, LogTemp, Warning, TEXT("Ability Activated: %s"), *GetName());
+}
+
+bool UStealthGameplayAbility::IsDebugEnabled()
+{
+	return CVarDebugAbilities.GetValueOnGameThread();
 }

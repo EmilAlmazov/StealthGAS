@@ -13,4 +13,7 @@ class STEALTHGAS_API UStealthGameplayAbility : public UGameplayAbility
 	
 public:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+	
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Stealth|Debug")
+	static bool IsDebugEnabled();
 };

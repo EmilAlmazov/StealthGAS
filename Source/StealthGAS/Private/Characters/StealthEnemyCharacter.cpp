@@ -2,15 +2,14 @@
 
 
 #include "Characters/StealthEnemyCharacter.h"
-
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/StealthAbilitySystemComponent.h"
 
 
 AStealthEnemyCharacter::AStealthEnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UStealthAbilitySystemComponent>("StealthAbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	
 	// AI runs

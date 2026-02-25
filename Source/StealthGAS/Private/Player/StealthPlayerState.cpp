@@ -2,14 +2,14 @@
 
 
 #include "Player/StealthPlayerState.h"
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/StealthAbilitySystemComponent.h"
 
 AStealthPlayerState::AStealthPlayerState()
 {
 	// see https://github.com/tranek/GASDocumentation?tab=readme-ov-file#41-ability-system-component
 	SetNetUpdateFrequency(100.f);
 	
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UStealthAbilitySystemComponent>("StealthAbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 }

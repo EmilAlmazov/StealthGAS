@@ -14,8 +14,11 @@ void UStealthGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle H
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-	const bool bShouldDebug = CVarDebugAbilities.GetValueOnGameThread();
-	UE_CLOG(bShouldDebug, LogTemp, Warning, TEXT("Ability Activated: %s"), *GetName());
+	if (IsDebugEnabled() && GEngine())
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Cyan, FString::Printf(TEXT("%s Activated: "), *GetName()));
+	}
+	
 }
 
 bool UStealthGameplayAbility::IsDebugEnabled()

@@ -185,17 +185,17 @@ void AStealthCharacter::DoCrouchEnd()
 
 void AStealthCharacter::DoPrimaryStart()
 {
-	ActivateAbilities(StealthTags::StealthAbilities::Primary);
+	ActivateAbilities(StealthTags::StealthAbilities::Player::Primary);
 }
 
 void AStealthCharacter::DoSecondaryStart()
 {
-	ActivateAbilities(StealthTags::StealthAbilities::Secondary);
+	ActivateAbilities(StealthTags::StealthAbilities::Player::Secondary);
 }
 
 void AStealthCharacter::DoTertiaryStart()
 {
-	ActivateAbilities(StealthTags::StealthAbilities::Tertiary);
+	ActivateAbilities(StealthTags::StealthAbilities::Player::Tertiary);
 }
 
 void AStealthCharacter::ActivateAbilities(const FGameplayTag& AbilityTag) const

@@ -12,7 +12,8 @@ AStealthEnemyCharacter::AStealthEnemyCharacter()
 	AbilitySystemComponent = CreateDefaultSubobject<UStealthAbilitySystemComponent>("StealthAbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	
-	// AI runs
+	// AI runs on server, not client, so AI data can't be replicated to other clients, therefore Minimal
+	// Minimal in general is used for NPCs in multiplayer
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 }
 

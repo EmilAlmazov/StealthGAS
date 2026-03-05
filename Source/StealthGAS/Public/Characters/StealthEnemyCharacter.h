@@ -6,6 +6,7 @@
 #include "StealthBaseCharacter.h"
 #include "StealthEnemyCharacter.generated.h"
 
+class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS()
@@ -23,4 +24,7 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "StealthGAS | Abilities")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

@@ -8,6 +8,7 @@
 
 #include "StealthBaseCharacter.generated.h"
 
+class UGameplayEffect;
 class UGameplayAbility;
 
 UCLASS(Abstract)
@@ -21,9 +22,12 @@ public:
 	
 protected:
 	void GiveStartupAbilities();
+	void InitializeAttributes() const;
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "StealthGAS | Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "StealthGAS | Effects")
+	TSubclassOf<UGameplayEffect> InitializeAttributesEffect;
 };

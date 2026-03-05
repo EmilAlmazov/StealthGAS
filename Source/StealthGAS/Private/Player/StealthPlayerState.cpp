@@ -3,6 +3,7 @@
 
 #include "Player/StealthPlayerState.h"
 #include "AbilitySystem/StealthAbilitySystemComponent.h"
+#include "AbilitySystem/StealthAttributeSet.h"
 
 AStealthPlayerState::AStealthPlayerState()
 {
@@ -12,6 +13,8 @@ AStealthPlayerState::AStealthPlayerState()
 	AbilitySystemComponent = CreateDefaultSubobject<UStealthAbilitySystemComponent>("StealthAbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+	
+	AttributeSet = CreateDefaultSubobject<UStealthAttributeSet>("AttributeSet");
 }
 
 UAbilitySystemComponent* AStealthPlayerState::GetAbilitySystemComponent() const

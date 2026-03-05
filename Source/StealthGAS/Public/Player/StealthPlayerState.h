@@ -8,6 +8,7 @@
 
 #include "StealthPlayerState.generated.h"
 
+class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS()
@@ -21,4 +22,7 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "StealthGAS | Abilities")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

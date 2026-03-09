@@ -18,6 +18,7 @@ class STEALTHGAS_API AStealthPlayerState : public APlayerState, public IAbilityS
 public:
 	AStealthPlayerState();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 	
 private:
 	UPROPERTY(VisibleAnywhere, Category = "StealthGAS | Abilities")

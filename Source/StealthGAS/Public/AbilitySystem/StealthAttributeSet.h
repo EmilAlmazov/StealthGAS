@@ -15,6 +15,8 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAttributesInitialized);
+
 UCLASS()
 class STEALTHGAS_API UStealthAttributeSet : public UAttributeSet
 {
@@ -22,19 +24,30 @@ class STEALTHGAS_API UStealthAttributeSet : public UAttributeSet
 	
 public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 	
+	UPROPERTY(BlueprintAssignable)
+	FAttributesInitialized OnAttributesInitialized;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_AttributesInitialized)
+	bool bAttributesInitialized = false;
+	
+	UFUNCTION()
+	void OnRep_AttributesInitialized();
+	
+	// Attributes
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health)
 	FGameplayAttributeData Health;
 	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth)
 	FGameplayAttributeData MaxHealth;
 	
+	// Attributes Client Replication
+	UFUNCTION()
+	void OnRep_Health(const FGameplayAttributeData& OldValue) const;
 	
 	UFUNCTION()
-	void OnRep_Health(const FGameplayAttributeData& OldValue);
-	
-	UFUNCTION()
-	void OnRep_MaxHealth(const FGameplayAttributeData& OldValue);
+	void OnRep_MaxHealth(const FGameplayAttributeData& OldValue) const;
 	
 	
 	ATTRIBUTE_ACCESSORS(ThisClass, Health);

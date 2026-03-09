@@ -56,7 +56,17 @@ AStealthCharacter::AStealthCharacter()
 UAbilitySystemComponent* AStealthCharacter::GetAbilitySystemComponent() const
 {
 	const AStealthPlayerState* StealthPlayerState = Cast<AStealthPlayerState>(GetPlayerState());
-	return StealthPlayerState ? StealthPlayerState->GetAbilitySystemComponent() : nullptr;
+	if (!IsValid(StealthPlayerState)) return nullptr;
+	
+	return StealthPlayerState->GetAbilitySystemComponent();
+}
+
+UAttributeSet* AStealthCharacter::GetAttributeSet() const
+{
+	const AStealthPlayerState* StealthPlayerState = Cast<AStealthPlayerState>(GetPlayerState());
+	if (!IsValid(StealthPlayerState)) return nullptr;
+	
+	return StealthPlayerState->GetAttributeSet(); 
 }
 
 // Happens on server side
@@ -67,6 +77,8 @@ void AStealthCharacter::PossessedBy(AController* NewController)
 	if (!IsValid(GetAbilitySystemComponent()) || !HasAuthority()) return;
 	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
+	
 	GiveStartupAbilities();
 	InitializeAttributes();
 	
@@ -79,11 +91,7 @@ void AStealthCharacter::OnRep_PlayerState()
 	
 	if (!IsValid(GetAbilitySystemComponent())) return;
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
-}
-
-void AStealthCharacter::BeginPlay()
-{
-	Super::BeginPlay();
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 }
 
 void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

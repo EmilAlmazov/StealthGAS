@@ -25,12 +25,18 @@ UAbilitySystemComponent* AStealthEnemyCharacter::GetAbilitySystemComponent() con
 	return AbilitySystemComponent;
 }
 
+UAttributeSet* AStealthEnemyCharacter::GetAttributeSet() const
+{
+	return AttributeSet;
+}
+
 void AStealthEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	if (!IsValid(GetAbilitySystemComponent())) return;
 	GetAbilitySystemComponent()->InitAbilityActorInfo(this, this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	
 	if (!HasAuthority()) return;
 	GiveStartupAbilities();

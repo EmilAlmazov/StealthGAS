@@ -2,7 +2,7 @@
 
 
 #include "AbilitySystem/StealthAttributeSet.h"
-
+#include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
 void UStealthAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -12,7 +12,7 @@ void UStealthAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	
-	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, bAttributesInitialized, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME(UStealthAttributeSet, bAttributesInitialized);
 }
 
 void UStealthAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)

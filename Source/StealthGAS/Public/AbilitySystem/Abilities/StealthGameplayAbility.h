@@ -16,4 +16,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Stealth|Debug")
 	static bool IsDebugEnabled();
+
+	UFUNCTION(BlueprintCallable, Category = "StealthGAS|Abilities")
+	void ApplyDamageEffectToEnemy(const TArray<AActor*>& ActorsHit, TSubclassOf<UGameplayEffect> DamageEffect);
 };

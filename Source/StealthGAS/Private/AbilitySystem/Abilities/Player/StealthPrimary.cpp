@@ -4,6 +4,8 @@
 #include "AbilitySystem/Abilities/Player/StealthPrimary.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
+#include "Characters/StealthBaseCharacter.h"
 #include "Engine/OverlapResult.h"
 #include "GameplayTags/StealthTags.h"
 

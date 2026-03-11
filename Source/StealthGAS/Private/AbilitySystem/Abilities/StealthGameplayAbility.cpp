@@ -2,6 +2,11 @@
 
 #include "AbilitySystem/Abilities/StealthGameplayAbility.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemGlobals.h"
+#include "Characters/StealthBaseCharacter.h"
+
 static TAutoConsoleVariable CVarDebugAbilities(
 	TEXT("Stealth.Debug.Abilities"),
 	false,
@@ -24,4 +29,30 @@ void UStealthGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle H
 bool UStealthGameplayAbility::IsDebugEnabled()
 {
 	return CVarDebugAbilities.GetValueOnGameThread();
+}
+
+void UStealthGameplayAbility::ApplyDamageEffectToEnemy(const TArray<AActor*>& ActorsHit, TSubclassOf<UGameplayEffect> DamageEffect)
+{
+	if (!ensureMsgf(DamageEffect, TEXT("DamageEffect not assigned in %s"), *GetName())) return;
+	
+	UAbilitySystemComponent* ACS = GetAbilitySystemComponentFromActorInfo_Ensured();
+	
+	// Context Handle
+	FGameplayEffectContextHandle ContextHandle = ACS->MakeEffectContext();
+	ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
+	
+	// Spec Handle
+	const FGameplayEffectSpecHandle DamageEffectSpecHandle = ACS->MakeOutgoingSpec(DamageEffect, GetAbilityLevel(), ContextHandle);
+	if (!DamageEffectSpecHandle.IsValid()) return;
+	
+	for (auto& Actor : ActorsHit)
+	{
+		if (!IsValid(Actor)) continue;
+		
+		UAbilitySystemComponent* ActorACS = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor);
+		if (ActorACS)
+		{
+			ACS->ApplyGameplayEffectSpecToTarget(*DamageEffectSpecHandle.Data.Get(), ActorACS);
+		}
+	}
 }

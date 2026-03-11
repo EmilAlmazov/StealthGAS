@@ -42,5 +42,6 @@ void AStealthEnemyCharacter::BeginPlay()
 	GiveStartupAbilities();
 	InitializeAttributes();
 	
+	BindToHealthDelegate();
 }
 

@@ -19,6 +19,12 @@ public:
 	// Activate ability on clients too
 	void virtual OnRep_ActivateAbilities() override;
 	
+	UFUNCTION(BlueprintCallable, Category = "StealthGAS|Abilities")
+	void SetAbilityLevel(TSubclassOf<UGameplayAbility> Ability, int32 Level);
+	
+	UFUNCTION(BlueprintCallable, Category = "StealthGAS|Abilities")
+	void UpgradeAbilityLevel(TSubclassOf<UGameplayAbility> Ability, int32 Level = 1);
+	
 private:
 	void TryActivateAbilityIfTaggedOnGiven(const FGameplayAbilitySpec& AbilitySpec);
 	

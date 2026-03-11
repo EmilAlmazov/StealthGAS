@@ -12,6 +12,7 @@
 #include "AbilitySystemComponent.h"
 #include "InputActionValue.h"
 #include "StealthGAS.h"
+#include "AbilitySystem/StealthAttributeSet.h"
 #include "GameplayTags/StealthTags.h"
 #include "Player/StealthPlayerState.h"
 
@@ -81,6 +82,8 @@ void AStealthCharacter::PossessedBy(AController* NewController)
 	
 	GiveStartupAbilities();
 	InitializeAttributes();
+
+	BindToHealthDelegate();
 	
 }
 
@@ -92,6 +95,8 @@ void AStealthCharacter::OnRep_PlayerState()
 	if (!IsValid(GetAbilitySystemComponent())) return;
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
+	
+	BindToHealthDelegate();
 }
 
 void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

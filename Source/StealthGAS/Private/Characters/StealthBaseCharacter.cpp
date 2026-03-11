@@ -4,6 +4,9 @@
 #include "Characters/StealthBaseCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "MeshPaintVisualize.h"
+#include "AbilitySystem/StealthAttributeSet.h"
+#include "Net/UnrealNetwork.h"
 
 
 AStealthBaseCharacter::AStealthBaseCharacter()
@@ -11,6 +14,13 @@ AStealthBaseCharacter::AStealthBaseCharacter()
 	PrimaryActorTick.bCanEverTick = false;
 	
 	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
+}
+
+void AStealthBaseCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME(ThisClass, bAlive);
 }
 
 UAbilitySystemComponent* AStealthBaseCharacter::GetAbilitySystemComponent() const
@@ -37,5 +47,36 @@ void AStealthBaseCharacter::InitializeAttributes() const
 	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(InitializeAttributesEffect, 1.f, ContextHandle);
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+}
+
+void AStealthBaseCharacter::OnHealthChanged(const FOnAttributeChangeData& AttributeChangeData)
+{
+	if (AttributeChangeData.NewValue <= 0)
+	{
+		HandleDeath();
+	}
+}
+
+void AStealthBaseCharacter::HandleDeath()
+{
+	bAlive = false;
+	
+	if (IsValid(GEngine))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("%s died"), *GetName()));
+	}
+}
+
+void AStealthBaseCharacter::BindToHealthDelegate()
+{
+	const auto* SGAS_AttributeSet = Cast<UStealthAttributeSet>(GetAttributeSet());
+	if (!IsValid(SGAS_AttributeSet)) return;
+	const FGameplayAttribute HealthAttribute = SGAS_AttributeSet->GetHealthAttribute();
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(HealthAttribute).AddUObject( this, &ThisClass::OnHealthChanged);
+}
+
+void AStealthBaseCharacter::HandleRespawn()
+{
+	bAlive = true;
 }
 

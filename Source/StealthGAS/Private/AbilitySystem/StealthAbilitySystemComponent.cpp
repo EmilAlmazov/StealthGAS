@@ -26,6 +26,28 @@ void UStealthAbilitySystemComponent::OnRep_ActivateAbilities()
 	}
 }
 
+void UStealthAbilitySystemComponent::SetAbilityLevel(const TSubclassOf<UGameplayAbility> Ability, const int32 Level)
+{
+	if (!IsValid(GetAvatarActor()) && !GetAvatarActor()->HasAuthority()) return;
+	
+	if (FGameplayAbilitySpec* AbilitySpec = FindAbilitySpecFromClass(Ability))
+	{
+		AbilitySpec->Level = Level;
+		MarkAbilitySpecDirty( *AbilitySpec);
+	}
+}
+
+void UStealthAbilitySystemComponent::UpgradeAbilityLevel(const TSubclassOf<UGameplayAbility> Ability, const int32 Level)
+{
+	if (!IsValid(GetAvatarActor()) && !GetAvatarActor()->HasAuthority()) return;
+	
+	if (FGameplayAbilitySpec* AbilitySpec = FindAbilitySpecFromClass(Ability))
+	{
+		AbilitySpec->Level += Level;
+		MarkAbilitySpecDirty( *AbilitySpec);
+	}
+}
+
 void UStealthAbilitySystemComponent::TryActivateAbilityIfTaggedOnGiven(const FGameplayAbilitySpec& AbilitySpec)
 {
 	if (!IsValid(AbilitySpec.Ability)) return;

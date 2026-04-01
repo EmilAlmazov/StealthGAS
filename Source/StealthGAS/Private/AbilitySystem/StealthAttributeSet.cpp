@@ -2,7 +2,10 @@
 
 
 #include "AbilitySystem/StealthAttributeSet.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayEffectExtension.h"
+#include "GameplayTags/StealthTags.h"
 #include "Net/UnrealNetwork.h"
 
 void UStealthAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -12,17 +15,26 @@ void UStealthAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	
-	DOREPLIFETIME(UStealthAttributeSet, bAttributesInitialized);
+	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, bAttributesInitialized, COND_None, REPNOTIFY_Always);
 }
 
 void UStealthAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
 	
+	// relies on InitializeAttributesEffect on being applied first
 	if (!bAttributesInitialized)
 	{
 		bAttributesInitialized = true;
 		OnAttributesInitialized.Broadcast();
+	}
+	
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute() && GetHealth() <= 0)
+	{
+		FGameplayEventData Payload;
+		Payload.Instigator = Data.Target.GetAvatarActor();
+		
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Data.EffectSpec.GetEffectContext().GetInstigator(), StealthTags::Events::CharacterDeath, Payload);
 	}
 }
 

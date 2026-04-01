@@ -6,6 +6,19 @@
 #include "Engine/LocalPlayer.h"
 #include "InputMappingContext.h"
 
+AStealthPlayerController::AStealthPlayerController(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	AStealthPlayerController::SetGenericTeamId(FGenericTeamId(2));
+}
+
+void AStealthPlayerController::SetGenericTeamId(const FGenericTeamId& NewTeamId)
+{
+	if (TeamId != NewTeamId)
+	{
+		TeamId = NewTeamId;
+	}
+}
+
 void AStealthPlayerController::BeginPlay()
 {
 	Super::BeginPlay();

@@ -12,6 +12,11 @@ namespace StealthTags::StealthAbilities::Player
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Tertiary, "StealthTags.StealthAbilities.Player.Tertiary", "Tag for Tertiary Ability");
 }
 
+namespace StealthTags::Events
+{
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharacterDeath, "StealthTags.Events.CharacterDeath", "Tag for player listening to enemy death");
+}
+
 namespace StealthTags::Events::Enemy
 {
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "StealthTags.Events.Enemy.HitReact", "Tag for enemy hit react listen event");

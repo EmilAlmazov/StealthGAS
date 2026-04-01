@@ -3,15 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GenericTeamAgentInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "StealthPlayerController.generated.h"
 
 class UInputMappingContext;
 
-UCLASS(abstract)
-class AStealthPlayerController : public APlayerController
+UCLASS(Abstract)
+class AStealthPlayerController : public APlayerController, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
+	
+public:
+	explicit AStealthPlayerController(const FObjectInitializer& ObjectInitializer);
+	
+	virtual void SetGenericTeamId(const FGenericTeamId& NewTeamId) override;
+	virtual FGenericTeamId GetGenericTeamId() const override { return TeamId; }
 	
 protected:
 
@@ -23,4 +30,6 @@ protected:
 	
 	virtual void SetupInputComponent() override;
 
+private:
+	FGenericTeamId TeamId;
 };

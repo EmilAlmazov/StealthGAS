@@ -4,7 +4,6 @@
 #include "Characters/StealthBaseCharacter.h"
 
 #include "AbilitySystemComponent.h"
-#include "MeshPaintVisualize.h"
 #include "AbilitySystem/StealthAttributeSet.h"
 #include "Net/UnrealNetwork.h"
 
@@ -21,6 +20,16 @@ void AStealthBaseCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimePro
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
 	DOREPLIFETIME(ThisClass, bAlive);
+}
+
+void AStealthBaseCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+	if (const IGenericTeamAgentInterface* ControllerAsTeamProvider = Cast<IGenericTeamAgentInterface>(NewController))
+	{
+		TeamId = ControllerAsTeamProvider->GetGenericTeamId();
+	}
 }
 
 UAbilitySystemComponent* AStealthBaseCharacter::GetAbilitySystemComponent() const
@@ -78,5 +87,15 @@ void AStealthBaseCharacter::BindToHealthDelegate()
 void AStealthBaseCharacter::HandleRespawn()
 {
 	bAlive = true;
+}
+
+void AStealthBaseCharacter::ResetAttributes()
+{
+	checkf(IsValid(ResetAttributesEffect), TEXT("ResetAttributesEffect is not set"));
+	ensure(GetAbilitySystemComponent());
+	
+	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(ResetAttributesEffect, 1.f, ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 }
 

@@ -15,6 +15,11 @@ namespace StealthTags::StealthAbilities::Player
  	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tertiary);
  }
 
+namespace StealthTags::Events
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(CharacterDeath)
+}
+
 namespace StealthTags::Events::Enemy
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);

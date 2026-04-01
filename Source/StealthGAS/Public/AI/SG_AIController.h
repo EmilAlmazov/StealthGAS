@@ -39,7 +39,7 @@ public:
 	/** Returns the targeted enemy */
 	AActor* GetCurrentTarget() const { return TargetEnemy; };
 
-	
+	UStateTreeAIComponent* GetStateTreeAI() const { return StateTreeAI; }
 	
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
@@ -63,6 +63,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UStateTreeAIComponent* StateTreeAI;
 
+private:
 	/** Detects other actors through sight, hearing and other senses */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UAIPerceptionComponent* AIPerception;

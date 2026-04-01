@@ -31,7 +31,7 @@ void ASG_AIController::OnPossess(APawn* InPawn)
 	Super::OnPossess(InPawn);
 	
 	// ensure we're possessing an NPC
-	if (AStealthEnemyCharacter* NPC = Cast<AStealthEnemyCharacter>(InPawn))
+	if (Cast<AStealthEnemyCharacter>(InPawn))
 	{
 		// start AI logic
 		StateTreeAI->StartLogic();

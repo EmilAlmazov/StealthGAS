@@ -36,6 +36,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual UAttributeSet* GetAttributeSet() const { return nullptr; }
 	
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="StealthGAS | Death")
 	bool IsAlive() const { return bAlive; }
 	void SetAlive(const bool bAliveStatus) { bAlive = bAliveStatus; }
 	
@@ -70,5 +71,5 @@ private:
 	TSubclassOf<UGameplayEffect> ResetAttributesEffect;
 	
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Replicated)
-	bool bAlive;
+	bool bAlive = true;
 };

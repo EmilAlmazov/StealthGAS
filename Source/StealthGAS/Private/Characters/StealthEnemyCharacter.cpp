@@ -8,6 +8,7 @@
 #include "AbilitySystem/StealthAttributeSet.h"
 #include "AI/SG_AIController.h"
 #include "Components/StateTreeAIComponent.h"
+#include "Perception/AIPerceptionComponent.h"
 
 
 AStealthEnemyCharacter::AStealthEnemyCharacter()
@@ -47,9 +48,10 @@ void AStealthEnemyCharacter::HandleRespawn()
 {
 	Super::HandleRespawn();
 	
-	const auto* SG_AIController = GetController<ASG_AIController>();
+	auto* SG_AIController = GetController<ASG_AIController>();
 	if (!IsValid(SG_AIController)) return;
 	SG_AIController->GetStateTreeAI()->StartLogic();
+	SG_AIController->GetAIPerceptionComponent()->RequestStimuliListenerUpdate();
 }
 
 void AStealthEnemyCharacter::BeginPlay()

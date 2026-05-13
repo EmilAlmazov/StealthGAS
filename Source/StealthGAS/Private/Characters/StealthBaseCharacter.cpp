@@ -92,7 +92,7 @@ void AStealthBaseCharacter::HandleRespawn()
 void AStealthBaseCharacter::ResetAttributes()
 {
 	checkf(IsValid(ResetAttributesEffect), TEXT("ResetAttributesEffect is not set"));
-	ensure(GetAbilitySystemComponent());
+	if (!IsValid(GetAbilitySystemComponent())) return;
 	
 	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(ResetAttributesEffect, 1.f, ContextHandle);

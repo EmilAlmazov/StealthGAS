@@ -21,3 +21,8 @@ namespace StealthTags::Events::Enemy
 {
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "StealthTags.Events.Enemy.HitReact", "Tag for enemy hit react listen event");
 }
+
+namespace StealthTags::Status
+{
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Dead, "StealthTags.Status.Dead", "Tag for player being dead");
+}

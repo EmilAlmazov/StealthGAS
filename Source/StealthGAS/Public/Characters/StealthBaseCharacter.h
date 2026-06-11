@@ -65,7 +65,7 @@ private:
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "StealthGAS | Effects")
-	TSubclassOf<UGameplayEffect> InitializeAttributesEffect;
+	TArray<TSubclassOf<UGameplayEffect>> StartupEffects;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "StealthGAS | Effects")
 	TSubclassOf<UGameplayEffect> ResetAttributesEffect;

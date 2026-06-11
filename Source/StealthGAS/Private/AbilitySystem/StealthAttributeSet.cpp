@@ -14,6 +14,8 @@ void UStealthAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	
 	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, FireStamina, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, MaxFireStamina, COND_None, REPNOTIFY_Always);
 	
 	DOREPLIFETIME_CONDITION_NOTIFY(UStealthAttributeSet, bAttributesInitialized, COND_None, REPNOTIFY_Always);
 }
@@ -36,6 +38,12 @@ void UStealthAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 		
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Data.EffectSpec.GetEffectContext().GetInstigator(), StealthTags::Events::CharacterDeath, Payload);
 	}
+	
+	// clamp Fire Stamina
+	if (Data.EvaluatedData.Attribute == GetFireStaminaAttribute())
+	{
+		SetFireStamina(FMath::Clamp(GetFireStamina(), 0.0f, GetMaxFireStamina()));
+	}
 }
 
 void UStealthAttributeSet::OnRep_AttributesInitialized()
@@ -54,4 +62,14 @@ void UStealthAttributeSet::OnRep_Health(const FGameplayAttributeData& OldValue) 
 void UStealthAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldValue) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass, MaxHealth, OldValue);
+}
+
+void UStealthAttributeSet::OnRep_FireStamina(const FGameplayAttributeData& OldValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass, FireStamina, OldValue);
+}
+
+void UStealthAttributeSet::OnRep_MaxFireStamina(const FGameplayAttributeData& OldValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass, MaxFireStamina, OldValue);
 }

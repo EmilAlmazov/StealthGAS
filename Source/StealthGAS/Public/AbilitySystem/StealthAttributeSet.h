@@ -42,6 +42,12 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth)
 	FGameplayAttributeData MaxHealth;
 	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireStamina)
+	FGameplayAttributeData FireStamina;
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxFireStamina)
+	FGameplayAttributeData MaxFireStamina;
+	
 	// Attributes Client Replication
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldValue) const;
@@ -49,7 +55,15 @@ public:
 	UFUNCTION()
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldValue) const;
 	
+	UFUNCTION()
+	void OnRep_FireStamina(const FGameplayAttributeData& OldValue) const;
+	
+	UFUNCTION()
+	void OnRep_MaxFireStamina(const FGameplayAttributeData& OldValue) const;
+	
 	
 	ATTRIBUTE_ACCESSORS(ThisClass, Health);
 	ATTRIBUTE_ACCESSORS(ThisClass, MaxHealth);
+	ATTRIBUTE_ACCESSORS(ThisClass, FireStamina);
+	ATTRIBUTE_ACCESSORS(ThisClass, MaxFireStamina);
 };

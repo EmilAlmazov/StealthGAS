@@ -50,12 +50,16 @@ void AStealthBaseCharacter::GiveStartupAbilities()
 
 void AStealthBaseCharacter::InitializeAttributes() const
 {
-	checkf(IsValid(InitializeAttributesEffect), TEXT("InitializeAttributesEffect is not set"));
 	ensure(GetAbilitySystemComponent());
 	
-	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
-	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(InitializeAttributesEffect, 1.f, ContextHandle);
-	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+	for (const auto Effect : StartupEffects)
+	{
+		if (!IsValid(Effect)) continue;
+		
+		const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+		const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(Effect, 1.f, ContextHandle);
+		GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+	}
 }
 
 void AStealthBaseCharacter::OnHealthChanged(const FOnAttributeChangeData& AttributeChangeData)

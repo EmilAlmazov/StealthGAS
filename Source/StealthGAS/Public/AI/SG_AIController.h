@@ -31,12 +31,15 @@ public:
 	
 	/* TARGETING */
 	/** Sets the targeted enemy */
+	UFUNCTION(BlueprintCallable, Category = "StealthGAS|AI")
 	void SetCurrentTarget(AActor* Target) { TargetEnemy = Target; };
 	
 	/** Clears the targeted enemy */
+	UFUNCTION(BlueprintCallable, Category = "StealthGAS|AI")
 	void ClearCurrentTarget() { TargetEnemy = nullptr; };
 	
 	/** Returns the targeted enemy */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "StealthGAS|AI")
 	AActor* GetCurrentTarget() const { return TargetEnemy; };
 
 	UStateTreeAIComponent* GetStateTreeAI() const { return StateTreeAI; }
@@ -45,6 +48,7 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 	/** Enemy currently being targeted */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<AActor> TargetEnemy;
 	
 	

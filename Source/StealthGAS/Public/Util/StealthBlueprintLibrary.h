@@ -26,4 +26,10 @@ public:
 	
 	UFUNCTION(BlueprintPure)
 	static FName GetHitDirectionName(EHitDirection HitDirection);
+	
+	UFUNCTION(BlueprintCallable, Category = "StealthGAS|Abilities")
+	static TArray<AActor*> HitBoxOverlapTest(AActor* AvatarActor, float HitBoxRadius, float HitBoxForwardOffset = 0.f, float HitBoxElevationOffset = 0.f, bool bIsDebugEnabled = false);
+	
+private:
+	static void DrawHitBoxAndOverlaps(const UWorld* World, const TArray<FOverlapResult>& OverlapResults, const FVector& HitBoxLocation, const float HitBoxRadius);
 };

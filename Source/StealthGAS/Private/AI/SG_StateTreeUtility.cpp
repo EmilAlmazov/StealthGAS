@@ -94,6 +94,8 @@ EStateTreeRunStatus FStateTreeSenseEnemiesTask::EnterState(FStateTreeExecutionCo
 					{
 						// clear the target
 						LambdaInstanceData->TargetActor = nullptr;
+						
+						LambdaInstanceData->bHasTarget = false;
 
 						// clear the target on the controller
 						LambdaInstanceData->Controller->ClearCurrentTarget();

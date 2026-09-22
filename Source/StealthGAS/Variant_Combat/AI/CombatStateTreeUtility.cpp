@@ -243,7 +243,7 @@ EStateTreeRunStatus FStateTreeFaceLocationTask::EnterState(FStateTreeExecutionCo
 		// get the instance data
 		FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 
-		// set the AI Controller's focus
+		// set the AI Controller's focus 
 		InstanceData.Controller->SetFocalPoint(InstanceData.FaceLocation);
 	}
 

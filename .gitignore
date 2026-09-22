@@ -40,6 +40,7 @@
 *.sdf
 *.VC.db
 *.VC.opendb
+*.tmp
 
 # Binary Files
 Binaries/*
@@ -79,16 +80,4 @@ Platforms/HoloLens/Config/HoloLensEngine.ini
 
 # personal
 .renom/
-GEMINI.md
 
-# ThirdPerson Content
-Content/Characters/
-Content/Collections/
-Content/Developers/
-Content/LevelPrototyping/
-Content/ThirdPerson/
-Content/Input/
-Content/Variant_*/
-
-# Paragon Content
-Content/Paragon*/

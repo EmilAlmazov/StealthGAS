@@ -4,6 +4,8 @@ A solo UE5 stealth prototype themed around Avatar: The Last Airbender. You play 
 
 https://github.com/user-attachments/assets/d87c90ad-194a-4169-bb91-3ec53f8a7b2e
 
+Full design breakdown: https://emilalmazov.framer.website/projects/stealth-gas
+
 ## Play It
 
 A packaged Windows build is available on the [Releases page](https://github.com/EmilAlmazov/StealthGAS/releases). Download, unzip, and run the `.exe` file.
